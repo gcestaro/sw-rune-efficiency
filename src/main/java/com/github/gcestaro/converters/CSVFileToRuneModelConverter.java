@@ -7,6 +7,7 @@ import com.github.gcestaro.models.Rune;
 import com.github.gcestaro.models.RuneGrade;
 import com.github.gcestaro.models.RuneSlot;
 import com.github.gcestaro.models.RuneStat;
+import com.github.gcestaro.models.StarDefaultValueFactory;
 import com.github.gcestaro.models.io.FileInfo;
 
 public class CSVFileToRuneModelConverter {
@@ -14,7 +15,14 @@ public class CSVFileToRuneModelConverter {
 	public static List<Rune> convert(List<FileInfo> fileData) {
 
 		return fileData.stream().map(data -> {
-			RuneStat primaryStat = new RuneStat(data.getPrimaryStat(), data.getPrimaryValue());
+
+			RuneStat primaryStat;
+
+			if (data.getPrimaryStat() == null) {
+				primaryStat = StarDefaultValueFactory.getDefaultValue(data.getSlot(), data.getStars());
+			} else {
+				primaryStat = new RuneStat(data.getPrimaryStat(), data.getPrimaryValue());
+			}
 
 			RuneStat innateStat = new RuneStat(data.getInnateStat(), data.getInnateValue());
 
@@ -26,7 +34,10 @@ public class CSVFileToRuneModelConverter {
 
 			RuneGrade defaultGrade = data.isDefaultLegend() ? RuneGrade.LEGENDARY : RuneGrade.RARE;
 
-			return new Rune(slot, defaultGrade, data.getSet());
+			Rune rune = new Rune(slot, defaultGrade, data.getSet());
+			rune.setLevel(data.getLevel());
+
+			return rune;
 
 		}).collect(Collectors.toList());
 	}

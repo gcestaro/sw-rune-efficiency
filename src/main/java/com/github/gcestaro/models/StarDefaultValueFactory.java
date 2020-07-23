@@ -7,7 +7,7 @@ import java.util.Set;
 public final class StarDefaultValueFactory {
 
 	public static RuneStat getDefaultValue(Stat stat, Integer stars) {
-		return new RuneStat(Stat.ATK, RUNE_POOL.stream()
+		return new RuneStat(stat, RUNE_POOL.stream()
 				.filter(rune -> rune.stars == stars)
 				.filter(rune -> rune.stat == stat)
 				.findAny()
@@ -84,7 +84,7 @@ public final class StarDefaultValueFactory {
 	}
 
 	public static final Set<PrimaryStatChanges> FIVE_STAR_RUNE_POOL = new HashSet<>();
-	
+
 	static {
 		FIVE_STAR_RUNE_POOL.add(HP_FLAT_RUNE_5);
 		FIVE_STAR_RUNE_POOL.add(HP_RUNE_5);
@@ -98,9 +98,9 @@ public final class StarDefaultValueFactory {
 		FIVE_STAR_RUNE_POOL.add(RES_RUNE_5);
 		FIVE_STAR_RUNE_POOL.add(ACC_RUNE_5);
 	}
-	
+
 	public static final Set<PrimaryStatChanges> SIX_STAR_RUNE_POOL = new HashSet<>();
-	
+
 	static {
 		SIX_STAR_RUNE_POOL.add(HP_FLAT_RUNE_6);
 		SIX_STAR_RUNE_POOL.add(HP_RUNE_6);
@@ -114,7 +114,7 @@ public final class StarDefaultValueFactory {
 		SIX_STAR_RUNE_POOL.add(RES_RUNE_6);
 		SIX_STAR_RUNE_POOL.add(ACC_RUNE_6);
 	}
-	
+
 	private StarDefaultValueFactory() {
 	}
 

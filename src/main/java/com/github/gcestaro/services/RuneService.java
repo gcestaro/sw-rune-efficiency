@@ -38,4 +38,8 @@ public class RuneService {
 	public Collection<Rune> getAllRunes() {
 		return repository.findAll();
 	}
+
+	public void deleteAll() {
+		repository.deleteAll();
+	}
 }

@@ -2,6 +2,7 @@ package com.github.gcestaro.resources;
 
 import java.util.Collection;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,7 +21,12 @@ public class RuneResource {
 	}
 
 	@GetMapping
-	public Collection<Rune> findRunes() {
+	public Collection<Rune> findAll() {
 		return runeService.getAllRunes();
+	}
+
+	@DeleteMapping
+	public void deleteAll() {
+		runeService.deleteAll();
 	}
 }
