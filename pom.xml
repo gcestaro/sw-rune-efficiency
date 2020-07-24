@@ -10,9 +10,9 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.github.gcestaro</groupId>
-	<artifactId>sw-rune-efficient</artifactId>
+	<artifactId>sw-rune-efficiency</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>sw-rune-efficient</name>
+	<name>sw-rune-efficiency</name>
 	<description>Summoners War rune efficiency calculator</description>
 
 	<properties>
