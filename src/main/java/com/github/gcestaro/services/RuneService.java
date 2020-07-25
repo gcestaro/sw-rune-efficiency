@@ -2,7 +2,11 @@ package com.github.gcestaro.services;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -11,6 +15,7 @@ import com.github.gcestaro.converters.CSVFileToRuneModelConverter;
 import com.github.gcestaro.models.Rune;
 import com.github.gcestaro.models.io.FileInfo;
 import com.github.gcestaro.repositories.RuneRepository;
+import com.github.gcestaro.resources.filters.RuneFilter;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -18,10 +23,53 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class RuneService {
 
-	private RuneRepository repository;
+	private final RuneRepository repository;
 
-	public RuneService(RuneRepository repository) {
+	private final MongoTemplate mongoTemplate;
+
+	public RuneService(RuneRepository repository, MongoTemplate mongoTemplate) {
+		this.mongoTemplate = mongoTemplate;
 		this.repository = repository;
+	}
+
+	public Collection<Rune> getAllRunes(RuneFilter filter) {
+		Query query = buildCriteria(filter);
+
+		List<Rune> runes = mongoTemplate.find(query, Rune.class);
+
+		if (filter.isOrderedResult()) {
+			return runes
+					.stream()
+					.sorted(filter.getOrderBy().getComparator())
+					.collect(Collectors.toList());
+		}
+
+		return runes;
+	}
+
+	private Query buildCriteria(RuneFilter filter) {
+		Query query = new Query();
+
+		if (filter.filterByLevel()) {
+			query.addCriteria(Criteria.where("level").gte(filter.getLevel()));
+		}
+
+		if (filter.filterBySlot()) {
+			query.addCriteria(Criteria.where("slot").is(filter.getSlot()));
+		}
+
+		if (filter.filterByPrimaryStat()) {
+			query.addCriteria(Criteria.where("primaryStat").is(filter.getPrimaryStat()));
+		}
+
+		if (filter.filterByRuneSet()) {
+			query.addCriteria(Criteria.where("set").is(filter.getSet()));
+		}
+		return query;
+	}
+
+	public void deleteAll() {
+		repository.deleteAll();
 	}
 
 	public void load(MultipartFile file) {
@@ -33,13 +81,5 @@ public class RuneService {
 
 		log.info("saving rune model");
 		repository.saveAll(runes);
-	}
-
-	public Collection<Rune> getAllRunes() {
-		return repository.findAll();
-	}
-
-	public void deleteAll() {
-		repository.deleteAll();
 	}
 }

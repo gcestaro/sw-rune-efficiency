@@ -49,7 +49,7 @@ public class RuneSlot {
 
 	private void validatePrimaryStatMandatory() {
 		if (this.primaryStat == null) {
-			throw new IllegalArgumentException("Trying to create a rune without mainStat");
+			throw new IllegalArgumentException("Trying to create a rune without mainStat - " + this);
 		}
 	}
 

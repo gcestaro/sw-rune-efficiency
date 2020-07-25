@@ -1,5 +1,8 @@
 package com.github.gcestaro.resources;
 
+import lombok.Data;
+
+@Data
 public class ResponseMessage {
 	private String message;
 

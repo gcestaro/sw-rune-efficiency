@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.gcestaro.models.Rune;
+import com.github.gcestaro.resources.filters.RuneFilter;
 import com.github.gcestaro.services.RuneService;
 
 @RestController
@@ -21,8 +22,8 @@ public class RuneResource {
 	}
 
 	@GetMapping
-	public Collection<Rune> findAll() {
-		return runeService.getAllRunes();
+	public Collection<Rune> findAll(RuneFilter filter) {
+		return runeService.getAllRunes(filter);
 	}
 
 	@DeleteMapping

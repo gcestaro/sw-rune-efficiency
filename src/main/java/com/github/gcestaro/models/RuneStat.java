@@ -11,6 +11,10 @@ public class RuneStat {
 
 	private BigDecimal value;
 
+	@Deprecated
+	public RuneStat() {
+	}
+
 	public RuneStat(Stat stat, BigDecimal value) {
 		this.stat = stat;
 		this.value = value;

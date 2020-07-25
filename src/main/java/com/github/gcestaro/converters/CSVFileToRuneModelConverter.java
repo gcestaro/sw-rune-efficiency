@@ -15,7 +15,6 @@ public class CSVFileToRuneModelConverter {
 	public static List<Rune> convert(List<FileInfo> fileData) {
 
 		return fileData.stream().map(data -> {
-
 			RuneStat primaryStat;
 
 			if (data.getPrimaryStat() == null) {
