@@ -8,6 +8,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.github.gcestaro.converters.CSVFileConverter;
@@ -55,7 +56,7 @@ public class RuneService {
 		}
 
 		if (filter.filterBySlot()) {
-			query.addCriteria(Criteria.where("slot").is(filter.getSlot()));
+			query.addCriteria(Criteria.where("slot.slot").is(filter.getSlot()));
 		}
 
 		if (filter.filterByPrimaryStat()) {
@@ -65,14 +66,19 @@ public class RuneService {
 		if (filter.filterByRuneSet()) {
 			query.addCriteria(Criteria.where("set").is(filter.getSet()));
 		}
+
 		return query;
 	}
 
 	public void deleteAll() {
+		log.info("deleting all runes");
 		repository.deleteAll();
 	}
 
+	@Transactional
 	public void load(MultipartFile file) {
+		this.deleteAll();
+
 		log.info("converting file to file info");
 		List<FileInfo> fileData = CSVFileConverter.loadObjectList(FileInfo.class, file);
 

@@ -1,5 +1,7 @@
 package com.github.gcestaro.models;
 
+import java.util.stream.Stream;
+
 public enum RuneSet {
 	ENERGY,
 	GUARD,
@@ -24,6 +26,6 @@ public enum RuneSet {
 	TOLERANCE;
 
 	public static RuneSet randomSet() {
-		return null;
+		return Stream.of(values()).findAny().get();
 	}
 }

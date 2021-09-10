@@ -17,18 +17,25 @@ public final class StarDefaultValueFactory {
 
 	public static RuneStat getDefaultValue(Integer slot, Integer stars) {
 
-		final Stat stat;
-		if (slot == 1) {
-			stat = Stat.ATK;
-		} else if (slot == 3) {
-			stat = Stat.DEF;
-		} else if (slot == 5) {
-			stat = Stat.HP;
-		} else {
-			return null;
-		}
+		final Stat stat = getDefaultStatBySlot(slot);
 
 		return getDefaultValue(stat, stars);
+	}
+
+	private static Stat getDefaultStatBySlot(Integer slot) {
+		if (slot == 1) {
+			return Stat.ATK;
+		}
+
+		if (slot == 3) {
+			return Stat.DEF;
+		}
+
+		if (slot == 5) {
+			return Stat.HP;
+		}
+
+		return null;
 	}
 
 	public static final PrimaryStatChanges HP_FLAT_RUNE_5 = new PrimaryStatChanges(5, Stat.HP, 270, 105, 2088);
